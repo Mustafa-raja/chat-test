@@ -14,7 +14,7 @@ import Image from "next/image";
 function Sidebar() {
   return (
     <div className="hidden lg:flex flex-col w-16  text-primary-content mt-4 ">
-      <div className="flex flex-col items-center justify-start p-5 gap-8 bg-primary rounded-r-xl">
+      <div className="flex flex-col items-center justify-start p-6 gap-8 bg-primary rounded-r-3xl">
         <Home />
         <Building2 />
         <Users />
