@@ -124,7 +124,7 @@ function ChatSection() {
               </div>
               <div
                 className={`chat-bubble ${
-                  isCurrentUser ? "chat-bubble-primary" : "chat-bubble-white"
+                  isCurrentUser ? "chat-bubble-primary" : "bg-slate-100 border shadow-md text-black"
                 }`}
               >
                 {message.message}
