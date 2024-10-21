@@ -1,5 +1,5 @@
 "use client";
-import { MapPin, MessageSquare, UserRoundPlus,  Video } from "lucide-react";
+import { MapPin, MessageSquare, UserRoundPlus, Video } from "lucide-react";
 import React from "react";
 import { useSelectedChat } from "@/context/SelectedChatContext";
 function Profile() {
@@ -55,7 +55,26 @@ function Profile() {
           <span className="badge badge-sm badge-neutral">+2</span>
         </div>
       </div>
-      <div className="p-4 border-t border-base-300"></div>
+      <div className="p-4 border-t border-base-300">
+        <h3 className="font-bold mb-2">Media</h3>
+        <div className="grid grid-cols-3 gap-2">
+          <img
+            src="/images/picture1.jpg"
+            alt="Media 1"
+            className="rounded object-cover w-full h-full"
+          />
+          <img
+            src="/images/picture2.jpg"
+            alt="Media 2"
+            className="rounded object-cover w-full h-full"
+          />
+          <img
+            src="/images/picture3.jpg"
+            alt="Media 3"
+            className="rounded object-cover w-full h-full"
+          />
+        </div>
+      </div>
     </div>
   );
 }
