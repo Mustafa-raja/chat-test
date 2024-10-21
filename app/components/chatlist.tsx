@@ -68,8 +68,8 @@ export default function ChatList() {
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col flex-1 gap-3 py-3">
-      <div className="p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box overflow-scroll">
-        <div className="relative">
+      <div className="p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box ">
+        <div className=" sticky top-0 bg-transparent z-10 ">
           <input
             type="text"
             placeholder="Search Contact"
@@ -77,7 +77,7 @@ export default function ChatList() {
           />
           <Search className="absolute left-3 top-3 h-5 w-5 text-base-content opacity-60" />
         </div>
-        <div className="mt-4 space-y-4">
+        <div className="mt-4 flex flex-[90] flex-col space-y-4 overflow-scroll">
           {users.map((user) => (
             <div key={user.id} className="flex items-center space-x-4">
               <div className="avatar">
@@ -106,13 +106,13 @@ export default function ChatList() {
             </div>
           ))}
         </div>
-        <div className="mt-6 flex space-x-4">
+        <div className=" mt-6 flex flex-[10] space-x-4">
           <button className="btn btn-md btn-primary flex-1">Meeting</button>
           <button className="btn btn-md btn-outline flex-1">Schedule</button>
         </div>
       </div>
-      <div className="p-4 flex flex-col flex-[35] bg-base-100 shadow-xl rounded-box overflow-scroll">
-        <div className="flex justify-between items-center mb-4">
+      <div className="px-4 pb-4 flex flex-col flex-[35] bg-base-100 shadow-xl rounded-box overflow-scroll">
+        <div className="flex sticky top-0 bg-base-100 z-10 justify-between items-center pt-4 mb-4">
           <h2 className="text-lg font-semibold">Groups ({groups.length})</h2>
           <button className="btn btn-ghost btn-square btn-sm">
             <Plus className="h-5 w-5" />
