@@ -52,14 +52,14 @@ export default function ChatList() {
 
   if (loading) {
     return (
-      <div className="w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+      <div className="hidden lg:w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-[300px] mx-auto flex flex-col flex-1 gap-3 py-4">
+    <div className="hidden lg:flex w-full max-w-[300px] mx-auto flex-col flex-1 gap-3 py-4">
       <div className="p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box ">
         <div className=" sticky top-0 bg-transparent z-10 ">
           <input

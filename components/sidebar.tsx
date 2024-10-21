@@ -26,7 +26,7 @@ function Sidebar() {
         <Settings />
         <HelpCircle />
       </div>
-      <div className="flex-1 flex items-end p-5">
+      <div className="flex-1 flex items-end p-4">
         <div className="avatar online">
           <div className="w-10 rounded-full">
             <img

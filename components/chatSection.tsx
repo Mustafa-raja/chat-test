@@ -60,7 +60,7 @@ function ChatSection() {
   }
 
   return (
-    <div className="flex-1 flex my-4 flex-col rounded-xl shadow-xl overflow-hidden">
+    <div className="flex-1 flex lg:my-4 flex-col lg:rounded-xl lg:shadow-xl overflow-hidden">
       <div className="bg-base-100 p-4 flex items-center justify-between border-b border-base-300">
         <div className="flex items-center space-x-4">
           <div className="avatar">
