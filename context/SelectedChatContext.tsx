@@ -1,9 +1,14 @@
-// SelectedChatContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface Chat {
-  id: number;
-  name: string;
+
+interface Chat{
+    id: number;
+  username: string;
+  position: string;
+  address: string;
+  phone: string;
+  email: string;
+  profileImage: string;
 }
 
 interface SelectedChatContextType {
