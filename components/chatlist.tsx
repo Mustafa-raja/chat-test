@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Check, Plus, Search } from "lucide-react";
-import { getUsers, getGroups } from "../apis/getApis";
+import { getUsers, getGroups } from "../app/apis/getApis";
 import LoadingSkeleton from "./loadingSkeleton";
+import { useSelectedChat } from "@/context/SelectedChatContext";
 
 interface User {
   id: number;
@@ -24,6 +25,7 @@ export default function ChatList() {
   const [users, setUsers] = useState<User[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
+  const { selectedChat, setSelectedChat } = useSelectedChat();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,18 +46,20 @@ export default function ChatList() {
     fetchData();
   }, []);
 
-
+  const handleSelectUser = (user: User) => {
+    setSelectedChat(user);
+  };
 
   if (loading) {
     return (
-      <div className="w-full max-w-md mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4">
+      <div className="w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col flex-1 gap-3 py-3">
+    <div className="w-full max-w-[300px] mx-auto flex flex-col flex-1 gap-3 py-4">
       <div className="p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box ">
         <div className=" sticky top-0 bg-transparent z-10 ">
           <input
@@ -65,9 +69,15 @@ export default function ChatList() {
           />
           <Search className="absolute left-3 top-3 h-5 w-5 text-base-content opacity-60" />
         </div>
-        <div className="mt-4 flex flex-[90] flex-col space-y-4 overflow-scroll">
+        <div className="mt-4 flex flex-[90] flex-col space-y-2 overflow-scroll">
           {users.map((user) => (
-            <div key={user.id} className="flex items-center space-x-4">
+            <div
+              onClick={() => handleSelectUser(user)}
+              key={user.id}
+              className={` btn ${
+                user.id == selectedChat?.id ? "btn-active" : "btn-ghost"
+              } btn-lg items-center text-left space-x-1 px-1`}
+            >
               <div className="avatar">
                 <div className="w-12 h-12 rounded-full">
                   <img src={user.profileImage} alt={user.username} />
@@ -75,7 +85,7 @@ export default function ChatList() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{user.username}</p>
-                <p className="text-sm text-base-content text-opacity-60 truncate">
+                <p className="text-xs font-light text-base-content text-opacity-60 truncate">
                   {user.position}
                 </p>
               </div>
@@ -95,7 +105,7 @@ export default function ChatList() {
           ))}
         </div>
         <div className=" mt-6 flex flex-[10] space-x-4">
-          <button className="btn btn-md btn-primary flex-1">Meeting</button>
+          <button className="btn btn-md btn-primary  flex-1">Meeting</button>
           <button className="btn btn-md btn-outline flex-1">Schedule</button>
         </div>
       </div>

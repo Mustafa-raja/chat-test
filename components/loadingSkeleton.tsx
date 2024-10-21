@@ -2,7 +2,7 @@ import React from "react";
 
 function LoadingSkeleton() {
   return (
-    <div className="animate-pulse">
+    <div className="animate-pulse ">
       <div className="h-10 bg-base-300 rounded mb-4"></div>
       {[...Array(4)].map((_, i) => (
         <div key={i} className="flex items-center space-x-4 mb-4">
