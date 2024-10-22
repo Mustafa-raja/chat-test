@@ -2,8 +2,18 @@
 import { MapPin, MessageSquare, UserRoundPlus, Video } from "lucide-react";
 import React from "react";
 import { useSelectedChat } from "@/context/SelectedChatContext";
+import LoadingSkeleton from "./loadingSkeleton";
 function Profile() {
   const { selectedChat } = useSelectedChat();
+
+  if (selectedChat == null) {
+    return (
+      <div className="w-80 max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+        <LoadingSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="hidden lg:block w-80 bg-base-100 border border-base-300 my-4 overflow-scroll rounded-xl">
       <div className="avatar relative ">

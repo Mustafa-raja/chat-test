@@ -28,7 +28,6 @@ interface Chat {
 function ChatSection() {
   const { selectedChat } = useSelectedChat();
   const [chat, setChat] = useState<Chat[]>([]);
-  const [loading, setLoading] = useState(true);
   const { currentUser } = useCurrentUser();
   const currentUserId = 5;
 
@@ -39,21 +38,15 @@ function ChatSection() {
         setChat(chatData);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, [selectedChat]);
 
-  useEffect(() => {
-    console.log(chat);
-  }, [chat]);
-
-  if (loading) {
+  if (selectedChat == null) {
     return (
-      <div className="w-full max-w-md mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+      <div className="w-full max-w-2xl mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
@@ -151,7 +144,7 @@ function ChatSection() {
             placeholder="Type a message here..."
             className="input input-bordered flex-1"
           />
-          <button className="btn btn-circle btn-ghost">
+          <button className="btn btn-sm md:btn-md btn-circle btn-ghost">
             <AtSign className="h-6 w-6" />
           </button>
           <button className="btn btn-circle btn-ghost">
