@@ -5,6 +5,7 @@ import { getUsers, getGroups } from "../app/apis/getApis";
 import LoadingSkeleton from "./loadingSkeleton";
 import { useSelectedChat } from "@/context/SelectedChatContext";
 import { useMobileChat } from "@/context/mobileChatContext";
+
 interface User {
   id: number;
   username: string;
@@ -25,6 +26,7 @@ export default function ChatList() {
   const [users, setUsers] = useState<User[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(""); 
   const { selectedChat, setSelectedChat } = useSelectedChat();
   const { mobileChat, setMobileChat } = useMobileChat();
 
@@ -68,6 +70,18 @@ export default function ChatList() {
     }
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredUsers = users.filter((user) =>
+    user.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredGroups = groups.filter((group) =>
+    group.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
@@ -80,25 +94,27 @@ export default function ChatList() {
     <div
       className={`${
         mobileChat?.showChatSection ? "hidden lg:" : ""
-      }flex w-full lg:max-w-[300px] mx-auto flex-col flex-1 gap-3 p-4 overflow-auto`}
+      }flex w-full lg:max-w-[300px] px-auto flex-col flex-1 gap-3 p-4 lg:p-0 lg:py-4 `}
     >
       <div
-        className={` p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box `}
+        className={`p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box `}
       >
-        <div className=" sticky top-0 bg-transparent z-10 ">
+        <div className="sticky top-0 bg-transparent z-10 relative">
           <input
             type="text"
             placeholder="Search Contact"
             className="input input-bordered w-full pl-10"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
           <Search className="absolute left-3 top-3 h-5 w-5 text-base-content opacity-60" />
         </div>
         <div className="mt-4 flex flex-[90] flex-col space-y-2 overflow-scroll">
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <div
               onClick={() => handleSelectUser(user)}
               key={user.id}
-              className={` btn ${
+              className={`btn ${
                 user.id == selectedChat?.id ? "btn-active" : "btn-ghost"
               } btn-lg items-center text-left space-x-1 px-1`}
             >
@@ -108,7 +124,10 @@ export default function ChatList() {
                 </div>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{user.username}</p>
+                <p className="text-sm font-medium truncate">
+                  {user.username}
+                  {user.id == 5 ? " (You)" : ""}
+                </p>
                 <p className="text-xs font-light text-base-content text-opacity-60 truncate">
                   {user.position}
                 </p>
@@ -128,20 +147,22 @@ export default function ChatList() {
             </div>
           ))}
         </div>
-        <div className=" mt-6 flex flex-[10] space-x-4">
-          <button className="btn btn-md btn-primary  flex-1">Meeting</button>
+        <div className="mt-6 flex flex-[10] space-x-4">
+          <button className="btn btn-md btn-primary flex-1">Meeting</button>
           <button className="btn btn-md btn-outline flex-1">Schedule</button>
         </div>
       </div>
       <div className="hidden px-4 pb-4 lg:flex flex-col flex-[35] bg-base-100 shadow-xl rounded-box overflow-scroll">
         <div className="flex sticky top-0 bg-base-100 z-10 justify-between items-center pt-4 mb-4">
-          <h2 className="text-lg font-semibold">Groups ({groups.length})</h2>
+          <h2 className="text-lg font-semibold">
+            Groups ({filteredGroups.length})
+          </h2>
           <button className="btn btn-ghost btn-square btn-sm">
             <Plus className="h-5 w-5" />
           </button>
         </div>
         <div className="space-y-3">
-          {groups.map((group, index) => (
+          {filteredGroups.map((group, index) => (
             <div key={group.id} className="flex items-center space-x-3">
               <div
                 className={`w-8 h-8 rounded-lg bg-${
