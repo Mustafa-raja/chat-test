@@ -4,7 +4,7 @@ import { Check, Plus, Search } from "lucide-react";
 import { getUsers, getGroups } from "../app/apis/getApis";
 import LoadingSkeleton from "./loadingSkeleton";
 import { useSelectedChat } from "@/context/SelectedChatContext";
-
+import { useMobileChat } from "@/context/mobileChatContext";
 interface User {
   id: number;
   username: string;
@@ -26,6 +26,21 @@ export default function ChatList() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
   const { selectedChat, setSelectedChat } = useSelectedChat();
+  const { mobileChat, setMobileChat } = useMobileChat();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMobileChat({
+        isMobileView: window.innerWidth < 1024,
+        showChatSection: mobileChat?.showChatSection ?? true,
+      });
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,19 +63,28 @@ export default function ChatList() {
 
   const handleSelectUser = (user: User) => {
     setSelectedChat(user);
+    if (mobileChat?.isMobileView) {
+      setMobileChat({ isMobileView: true, showChatSection: true });
+    }
   };
 
   if (loading) {
     return (
-      <div className="hidden lg:w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+      <div className="w-full max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="hidden lg:flex w-full max-w-[300px] mx-auto flex-col flex-1 gap-3 py-4">
-      <div className="p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box ">
+    <div
+      className={`${
+        mobileChat?.showChatSection ? "hidden lg:" : ""
+      }flex w-full lg:max-w-[300px] mx-auto flex-col flex-1 gap-3 p-4 overflow-auto`}
+    >
+      <div
+        className={` p-4 flex flex-col flex-[65] bg-base-100 shadow-xl rounded-box `}
+      >
         <div className=" sticky top-0 bg-transparent z-10 ">
           <input
             type="text"
@@ -109,7 +133,7 @@ export default function ChatList() {
           <button className="btn btn-md btn-outline flex-1">Schedule</button>
         </div>
       </div>
-      <div className="px-4 pb-4 flex flex-col flex-[35] bg-base-100 shadow-xl rounded-box overflow-scroll">
+      <div className="hidden px-4 pb-4 lg:flex flex-col flex-[35] bg-base-100 shadow-xl rounded-box overflow-scroll">
         <div className="flex sticky top-0 bg-base-100 z-10 justify-between items-center pt-4 mb-4">
           <h2 className="text-lg font-semibold">Groups ({groups.length})</h2>
           <button className="btn btn-ghost btn-square btn-sm">

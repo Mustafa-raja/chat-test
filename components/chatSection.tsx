@@ -15,6 +15,7 @@ import { useSelectedChat } from "@/context/SelectedChatContext";
 import { getChatByUser } from "@/app/apis/getApis";
 import LoadingSkeleton from "./loadingSkeleton";
 import { useCurrentUser } from "@/context/currentUserContext";
+import { useMobileChat } from "@/context/mobileChatContext";
 
 interface Chat {
   id: number;
@@ -29,6 +30,7 @@ function ChatSection() {
   const { selectedChat } = useSelectedChat();
   const [chat, setChat] = useState<Chat[]>([]);
   const { currentUser } = useCurrentUser();
+  const { mobileChat } = useMobileChat();
   const currentUserId = 5;
 
   useEffect(() => {
@@ -46,14 +48,14 @@ function ChatSection() {
 
   if (selectedChat == null) {
     return (
-      <div className="w-full max-w-2xl mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+      <div className="hidden lg:block w-full max-w-2xl mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex lg:my-4 flex-col lg:rounded-xl lg:shadow-xl overflow-hidden">
+    <div className={`${!mobileChat?.showChatSection ? "hidden lg:" : ""}flex flex-1 lg:my-4 flex-col lg:rounded-xl lg:shadow-xl overflow-hidden`}>
       <div className="bg-base-100 p-4 flex items-center justify-between border-b border-base-300">
         <div className="flex items-center space-x-4">
           <div className="avatar">
@@ -104,7 +106,9 @@ function ChatSection() {
                         : selectedChat?.profileImage
                     }`}
                     alt={`${
-                      isCurrentUser ? currentUser?.username : selectedChat?.username
+                      isCurrentUser
+                        ? currentUser?.username
+                        : selectedChat?.username
                     } avatar`}
                   />
                 </div>
@@ -117,7 +121,9 @@ function ChatSection() {
               </div>
               <div
                 className={`chat-bubble ${
-                  isCurrentUser ? "chat-bubble-primary" : "bg-slate-100 border shadow-md text-black"
+                  isCurrentUser
+                    ? "chat-bubble-primary"
+                    : "bg-slate-100 border shadow-md text-black"
                 }`}
               >
                 {message.message}

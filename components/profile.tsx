@@ -8,7 +8,7 @@ function Profile() {
 
   if (selectedChat == null) {
     return (
-      <div className="w-80 max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
+      <div className="hidden lg:block w-80 max-w-sm mx-auto bg-base-100 shadow-xl rounded-box overflow-hidden p-4 my-4">
         <LoadingSkeleton />
       </div>
     );
