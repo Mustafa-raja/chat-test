@@ -1,5 +1,5 @@
 export async function addChatbyUser(fromUser: number, toUser: number, message: string) {
-    const url = `http://18.143.79.95/api/chatSystem/chat/add`;
+    const url = `http://localhost:8080/http://18.143.79.95/api/chatSystem/chat/add`;
   
     try {
       const response = await fetch(url, {
